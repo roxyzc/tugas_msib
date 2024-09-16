@@ -1,0 +1,188 @@
+* {
+  font-family: sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  outline: none;
+  border: none;
+  text-decoration: none;
+  transition: all 0.2s linear;
+}
+
+main {
+  padding: 40px;
+}
+
+section {
+  margin: 40px auto;
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+h2 {
+  margin-bottom: 10px;
+}
+
+.container {
+  width: 100%;
+  min-height: 100vh;
+}
+
+.container > header > .banner {
+  height: 80vh;
+  background-image: url("https://idea.or.id/storage/articles/641db54d76900.jpg");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+.container > main > section {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.container > main > section > h2 {
+  font-size: 20px;
+  border-bottom: 2px solid #333;
+  padding-bottom: 8px;
+  letter-spacing: 0.5px;
+  width: fit-content;
+}
+
+.container > main > section.tentang > p {
+  font-size: 16px;
+  max-width: 800px;
+  letter-spacing: 0.5px;
+  line-height: 2;
+}
+
+.container > main > section.jadwal > table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+
+.container > main > section.jadwal th,
+.jadwal td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.container > main > section.jadwal th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
+
+.container > main > section.jadwal tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.container > main > section.jadwal tr:nth-child(odd) {
+  background-color: #f4f4f4;
+}
+
+.container > main > section.jadwal tr:hover {
+  background-color: #ececec;
+}
+
+.container > main > section.galeri > .foto {
+  display: flex;
+  flex-wrap: wrap;
+
+  gap: 20px;
+  justify-content: center;
+}
+
+.container > main > section.galeri > .foto img {
+  width: 300px;
+  height: 200px;
+  object-fit: cover;
+}
+
+.container > footer > .footer-content {
+  display: flex;
+  padding: 20px 0;
+  color: white;
+  justify-content: center;
+  background-color: #ff0202;
+  width: 100%;
+  bottom: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  section {
+    width: 90%;
+  }
+
+  .container > header > .banner {
+    height: 50vh;
+    background-attachment: scroll;
+  }
+
+  .container > main > section > h2 {
+    font-size: 18px;
+  }
+
+  .container > main > section.tentang > p {
+    font-size: 14px;
+    max-width: 100%;
+  }
+
+  .container > main > section.jadwal > table {
+    font-size: 14px;
+  }
+
+  .container > main > section.jadwal th,
+  .container > main > section.jadwal td {
+    padding: 6px;
+  }
+
+  .container > main > section.jadwal img {
+    width: 200px;
+    height: 150px;
+  }
+
+  .container > footer > .footer-content {
+    padding: 16px 0;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container > header > .banner {
+    height: 40vh;
+    background-attachment: scroll;
+  }
+
+  .container > main > section > h2 {
+    font-size: 16px;
+  }
+
+  .container > main > section.tentang > p {
+    font-size: 12px;
+  }
+
+  .container > main > section.jadwal > table {
+    font-size: 12px;
+  }
+
+  .container > main > section.jadwal th,
+  .container > main > section.jadwal td {
+    padding: 4px;
+  }
+
+  .container > main > section.galeri > .foto img {
+    width: 150px;
+    height: 100px;
+  }
+
+  .container > footer > .footer-content {
+    padding: 16px 0;
+    font-size: 12px;
+  }
+}

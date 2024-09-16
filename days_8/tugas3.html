@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Line Chart</title>
+    <style>
+      .point {
+        margin-top: 10px;
+        text-align: center;
+        font-size: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      style="
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        width: 100%;
+      "
+    >
+      <div style="width: 50%">
+        <canvas id="myChart"></canvas>
+        <div class="point"></div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+      const ctx = document.getElementById("myChart");
+
+      const chartline = new Chart(ctx, {
+        type: "line",
+        data: {
+          labels: ["January", "February", "March", "April", "May"],
+          datasets: [
+            {
+              label: "My first dataset",
+              data: [1, 2, 3, 4, 5],
+              borderColor: "red",
+              fill: false,
+              tension: 0.1,
+            },
+          ],
+        },
+      });
+
+      // Event listener for mouse hover
+      document
+        .getElementById("myChart")
+        .addEventListener("mousemove", function (e) {
+          const points = chartline.getElementsAtEventForMode(
+            e,
+            "nearest",
+            { intersect: false },
+            true
+          );
+
+          if (points.length) {
+            const firstPoint = points[0];
+            const index = firstPoint.index;
+
+            document.querySelector(
+              ".point"
+            ).textContent = `Index (Terdekat): ${index}`;
+          }
+        });
+    </script>
+  </body>
+</html>
