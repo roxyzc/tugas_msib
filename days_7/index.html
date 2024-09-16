@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./css/bootstrap.min.css" />
+    <title>Alarm sederhana</title>
+  </head>
+  <body>
+    <div class="container border shadow mt-5 rounded p-5">
+      <div id="time" class="text-center p-5"></div>
+      <div class="row">
+        <div class="col-12 mb-3">
+          <label for="alarmTime" class="form-label"
+            >Atur jam alarm (HH:MM:SS):</label
+          ><br />
+          <input type="time" class="form-control" id="alarmTime" required />
+        </div>
+        <div class="col mb-3">
+          <button class="btn btn-primary rounded" onclick="setAlarm()">
+            Set Alarm
+          </button>
+        </div>
+      </div>
+
+      <div class="text-danger" id="list-alarm"></div>
+    </div>
+
+    <script src="./js/index.js"></script>
+    <script src="./js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

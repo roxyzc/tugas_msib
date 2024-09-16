@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Semantic UI</title>
+    <link rel="stylesheet" href="css/semantic.min.css" />
+  </head>
+  <body>
+    <div class="ui container segment raised very padded">
+      <h2 class="ui center aligned header">Form</h2>
+      <form class="ui form">
+        <div class="two fields">
+          <div class="field">
+            <label for="fName">Nama depan</label>
+            <input
+              type="text"
+              id="fName"
+              name="fName"
+              placeholder="Masukkan nama depan"
+            />
+          </div>
+          <div class="field">
+            <label for="lName">Nama belakang</label>
+            <input
+              type="text"
+              id="lName"
+              name="lName"
+              placeholder="Masukkan nama belakang"
+            />
+          </div>
+        </div>
+        <div class="field">
+          <label for="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="Masukkan email"
+          />
+        </div>
+        <div class="two fields">
+          <div class="field">
+            <label for="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Masukkan password"
+            />
+          </div>
+          <div class="field">
+            <label for="cPassword">Konfirmasi password</label>
+            <input
+              type="password"
+              id="cPassword"
+              name="cPassword"
+              placeholder="Masukkan password lagi"
+            />
+          </div>
+        </div>
+        <button type="submit" class="ui primary button fluid">Register</button>
+      </form>
+    </div>
+
+    <script src="js/semantic.min.js"></script>
+  </body>
+</html>
