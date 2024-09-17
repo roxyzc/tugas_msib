@@ -242,9 +242,15 @@
         let province = $("#province").val();
         let city = $("#city").val();
 
-        if (province && cities) {
+        if (province && city && cities[province][city]) {
           map.setView(cities[province][city], 13);
           popup.setLatLng(cities[province][city]).setContent(city).openOn(map);
+        } else {
+          map.setView([-6.2508559713890595, 107.17623355581979], 13);
+          popup
+            .setLatLng([-6.2508559713890595, 107.17623355581979])
+            .setContent("Pelita Bangsa")
+            .openOn(map);
         }
       });
 
