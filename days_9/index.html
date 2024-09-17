@@ -233,9 +233,7 @@
           const cityNames = Object.keys(cities[province]);
 
           cityNames.forEach((city) => {
-            citySelect.append(
-              '<option value="' + city + '">' + city + "</option>"
-            );
+            citySelect.append(`<option value="${city}">${city}</option>`);
           });
         }
       });
