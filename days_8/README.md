@@ -8,4 +8,4 @@
 
 ### Tugas 3
 
-![foto 3](./image/gambar_3.png)
+![foto 3](./image/gambar_3_new.png)
