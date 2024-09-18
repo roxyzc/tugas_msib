@@ -27,7 +27,7 @@ VALUES
 (4, '2024-09-18', 2,2000000, 1, 2),
 (5, '2024-09-18', 4,4500000, 2, 1);
 
-SELECT c.customerID, c.name, c.city FROM orders as o RIGHT JOIN customers as c ON c.customerID = o.customerID WHERE o.orderID IS NULL;
+SELECT c.customerID, c.name, c.city FROM orders AS o RIGHT JOIN customers AS c ON c.customerID = o.customerID WHERE o.orderID IS NULL;
 
 SELECT c.customerID, c.name, c.city, SUM(o.quantity) AS total_purchases FROM customers AS c INNER JOIN orders AS o ON c.customerID = o.customerID GROUP BY c.customerID
 
