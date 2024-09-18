@@ -1,0 +1,37 @@
+CREATE DATABASE tugas_days_11;
+
+CREATE TABLE customers (customerID int, name VARCHAR(255), city VARCHAR(255), PRIMARY KEY(customerID));
+
+CREATE TABLE salesman (salesmanID int, name VARCHAR(255), city VARCHAR(255), commision int CHECK(commision>0 AND commision<100), PRIMARY KEY(salesmanID));
+
+CREATE TABLE orders (orderID int, date DATE, quantity int, amount DECIMAL(10, 0), customerID int, salesmanID int, PRIMARY KEY(orderID), FOREIGN KEY (customerID) REFERENCES customers(customerID), FOREIGN KEY (salesmanID) REFERENCES salesman(salesmanID));
+
+INSERT INTO customers (customerID, name, city)
+VALUES 
+(1, 'Ridho', 'Bekasi'),
+(2, 'Pikriyansyah', 'Jakarta'),
+(3, 'Ridho Pikriyansyah', 'Surabaya'),
+(4, 'Riyan', 'Bekasi')
+
+INSERT INTO salesman (salesmanID, name, city, commission)
+VALUES 
+(1, 'roxyzc', 'Jakarta', 10),
+(2, 'rozy', 'Bandung', 15),
+(3, 'zxocy', 'Surabaya', 12);
+
+INSERT INTO orders (orderID, date, quantity, amount, customerID, salesmanID)
+VALUES 
+(1, '2024-09-18', 5,5000000, 1, 1),
+(2, '2024-09-18', 3,3000000, 2, 2),
+(3, '2024-09-18', 1,1000000, 3, 3),
+(4, '2024-09-18', 2,2000000, 1, 2),
+(5, '2024-09-18', 4,4500000, 2, 1);
+
+SELECT c.customerID, c.name, c.city FROM orders as o RIGHT JOIN customers as c ON c.customerID = o.customerID WHERE o.orderID IS NULL;
+
+SELECT c.customerID, c.name, c.city, SUM(o.quantity) AS total_purchases FROM customers AS c INNER JOIN orders AS o ON c.customerID = o.customerID GROUP BY c.customerID
+
+SELECT c.customerID, c.name, c.city, COUNT(o.orderID) AS total_orders FROM customers AS c INNER JOIN orders AS o ON c.customerID = o.customerID GROUP BY c.customerID;
+
+SELECT MAX(amount) AS max_amount, MIN(amount) AS min_amount, AVG(amount) AS avarage_amount FROM orders;
+
