@@ -1,0 +1,41 @@
+CREATE DATABASE tugas_days_11;
+
+CREATE TABLE m_customers (customerID int, name VARCHAR(255), city VARCHAR(255), PRIMARY KEY(customerID));
+
+CREATE TABLE m_salesman (salesmanID int, name VARCHAR(255), city VARCHAR(255), commision int CHECK(commision>0 AND commision<100), PRIMARY KEY(salesmanID));
+
+CREATE TABLE detail_m_orders (orderID int, date DATE, quantity int, amount DECIMAL(10, 0), customerID int, salesmanID int, PRIMARY KEY(orderID), FOREIGN KEY (customerID) REFERENCES m_customers(customerID), FOREIGN KEY (salesmanID) REFERENCES m_salesman(salesmanID));
+
+INSERT INTO m_customers (customerID, name, city)
+VALUES 
+(1, 'Ridho', 'Bekasi'),
+(2, 'Pikriyansyah', 'Jakarta'),
+(3, 'Ridho Pikriyansyah', 'Surabaya'),
+(4, 'Riyan', 'Bekasi');
+
+INSERT INTO m_salesman (salesmanID, name, city, commision)
+VALUES 
+(1, 'roxyzc', 'Jakarta', 10),
+(2, 'rozy', 'Bandung', 15),
+(3, 'zxocy', 'Surabaya', 12);
+
+INSERT INTO detail_m_orders (orderID, date, quantity, amount, customerID, salesmanID)
+VALUES 
+(1, '2024-09-18', 5,5000000, 1, 1),
+(2, '2024-09-18', 3,3000000, 2, 2),
+(3, '2024-09-18', 1,1000000, 3, 3),
+(4, '2024-09-18', 2,2000000, 1, 2),
+(5, '2024-09-18', 4,4500000, 2, 1);
+
+##Pertanyaan 1##
+SELECT c.customerID, c.name, c.city FROM detail_m_orders AS o RIGHT JOIN m_customers AS c ON c.customerID = o.customerID WHERE o.orderID IS NULL;
+
+##Pertanyaan 2##
+SELECT c.customerID, c.name, c.city, SUM(o.quantity) AS total_purchases FROM m_customers AS c INNER JOIN detail_m_orders AS o ON c.customerID = o.customerID GROUP BY c.customerID
+
+##Pertanyaan 3##
+SELECT c.customerID, c.name, c.city, COUNT(o.orderID) AS total_orders FROM m_customers AS c INNER JOIN detail_m_orders AS o ON c.customerID = o.customerID GROUP BY c.customerID;
+
+##Pertanyaan 4##
+SELECT MAX(amount) AS max_amount, MIN(amount) AS min_amount, AVG(amount) AS avarage_amount FROM detail_m_orders ;
+
