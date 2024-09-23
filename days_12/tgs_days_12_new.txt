@@ -12,16 +12,16 @@ INSERT INTO m_matakuliah (matakuliah_id, name, sks) VALUES ('A01', 'Pemrograman 
 
 INSERT INTO detail_m_ambil_mk (ambil_mk_id, mahasiswa_id, matakuliah_id, nilai) VALUES (1, 1, 'A01', 0), (2, 1, 'A02', 80), (3, 1, 'A03', 75), (4, 1, 'A04', 90), (5, 2, 'A02', 90), (6, 2, 'A03', 60), (7, 2, 'A04', 75), (8, 3, 'A02', 60), (9, 3, 'A03', 70);
 
-Pertanyaan No 1.
+######################### Pertanyaan No 1 ##########################
 SELECT m.name, am.nilai FROM m_mahasiswa AS m INNER JOIN detail_m_ambil_mk AS am ON am.mahasiswa_id = m.mahasiswa_id WHERE am.matakuliah_id = 'A03' AND am.nilai = (SELECT MAX(am2.nilai) FROM detail_m_ambil_mk AS am2 WHERE am2.matakuliah_id = 'A03');
 
-Pertanyaan No 2. 
+######################### Pertanyaan No 2 ########################## 
 SELECT m.name FROM m_mahasiswa AS m WHERE m.mahasiswa_id NOT IN (SELECT am.mahasiswa_id FROM detail_m_ambil_mk AS am WHERE am.matakuliah_id = 'A01');
 
-Pertanyaan No 3.
+######################### Pertanyaan No 3 ##########################
 SELECT DISTINCT am.nilai FROM detail_m_ambil_mk AS am WHERE am.nilai = (SELECT MIN(am2.nilai) FROM detail_m_ambil_mk AS am2 WHERE am2.mahasiswa_id = (SELECT m.mahasiswa_id FROM m_mahasiswa AS m WHERE m.name = 'viyella'));
 
-Pertanyaan No 4
+######################### Pertanyaan No 4 ##########################
 - Scalar Subquery = digunakan pada klausa SELECT, WHERE ataupun HAVING  untuk membandingkan data dari query utama dengan nilai tunggal yang dihasilkan oleh subquery.
 
 Contohnya: 

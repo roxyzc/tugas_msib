@@ -27,15 +27,15 @@ VALUES
 (4, '2024-09-18', 2,2000000, 1, 2),
 (5, '2024-09-18', 4,4500000, 2, 1);
 
-##Pertanyaan 1##
+################### Pertanyaan 1 ######################
 SELECT c.customerID, c.name, c.city FROM detail_m_orders AS o RIGHT JOIN m_customers AS c ON c.customerID = o.customerID WHERE o.orderID IS NULL;
 
-##Pertanyaan 2##
+################### Pertanyaan 2 #####################
 SELECT c.customerID, c.name, c.city, SUM(o.quantity) AS total_purchases FROM m_customers AS c INNER JOIN detail_m_orders AS o ON c.customerID = o.customerID GROUP BY c.customerID
 
-##Pertanyaan 3##
+################### Pertanyaan 3 ######################
 SELECT c.customerID, c.name, c.city, COUNT(o.orderID) AS total_orders FROM m_customers AS c INNER JOIN detail_m_orders AS o ON c.customerID = o.customerID GROUP BY c.customerID;
 
-##Pertanyaan 4##
+################### Pertanyaan 4 ######################
 SELECT MAX(amount) AS max_amount, MIN(amount) AS min_amount, AVG(amount) AS avarage_amount FROM detail_m_orders ;
 
