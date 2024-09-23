@@ -1,0 +1,115 @@
+CREATE DATABASE tugas_days_13;
+
+CREATE TABLE m_siswa (
+    siswa_id INT AUTO_INCREMENT,
+    nis VARCHAR(20) NOT NULL,
+    nama VARCHAR(100) NOT NULL,
+    ttl VARCHAR (100) NOT NULL,
+    gender ENUM('L', 'P') NOT NULL,
+    alamat TEXT NOT NULL,
+    PRIMARY KEY (siswa_id)
+);
+
+CREATE TABLE nilai (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    siswa_id INT NOT NULL,
+    nilai_IPA DECIMAL(5, 2) NOT NULL,
+    nilai_IPS DECIMAL(5, 2) NOT NULL,
+    nilai_MTK DECIMAL(5, 2) NOT NULL,
+    FOREIGN KEY (siswa_id) REFERENCES m_siswa(siswa_id)
+);
+
+INSERT INTO m_siswa (nis, nama, ttl, gender, alamat) 
+VALUES
+('123456', 'Aldo Prasetyo', 'Jakarta, 2008-05-15', 'L', 'Jl. Raya No. 1, Jakarta'),
+('123457', 'Siti Aisyah', 'Bandung, 2009-03-20', 'P', 'Jl. Kebon Jeruk No. 2, Bandung'),
+('123458', 'Budi Santoso', 'Surabaya, 2008-07-10', 'L', 'Jl. Cempaka No. 3, Surabaya'),
+('123459', 'Dewi Lestari', 'Semarang, 2009-02-14', 'P', 'Jl. Melati No. 4, Semarang'),
+('123460', 'Rudi Hidayat', 'Yogyakarta, 2008-11-30', 'L', 'Jl. Mawar No. 5, Yogyakarta');
+
+
+INSERT INTO nilai (siswa_id, nilai_IPA, nilai_IPS, nilai_MTK) 
+VALUES
+(1, 85.5, 78.0, 90.0),
+(2, 88.0, 82.5, 75.0),
+(3, 70.0, 65.5, 80.0),
+(4, 92.0, 88.0, 95.5),
+(5, 78.5, 80.0, 77.0);
+
+
+Saya menggunakan DELIMITER karena versi phpMyAdmin saya tidak mendukung pembuatan prosedur tanpa menggunakan DELIMITER
+###### Pertanyaan 1 #####
+
+DELIMITER //
+CREATE PROCEDURE getSiswaByBorn(IN tempat_lahir VARCHAR(100))
+BEGIN
+    SELECT * FROM m_siswa
+    WHERE ttl LIKE CONCAT('%', tempat_lahir, '%');
+END //
+DELIMITER ;
+
+CALL getSiswaByBorn('jakarta');
+
+###### Pertanyaan 2 ######
+
+DELIMITER //
+CREATE FUNCTION getJmlByGender(gender_input ENUM('L', 'P'))
+RETURNS INT
+BEGIN
+    DECLARE jumlah INT;
+
+    SELECT COUNT(*) INTO jumlah
+    FROM m_siswa
+    WHERE gender = gender_input;
+
+    RETURN jumlah;
+END //
+DELIMITER ;
+
+SELECT getJmlByGender('L') AS jumlah_siswa;
+
+####### Pertanyaan 3 #######
+
+CREATE TABLE m_products (
+    id INT AUTO_INCREMENT,
+    nama VARCHAR(100) NOT NULL,
+    harga DECIMAL(10, 2) NOT NULL, 
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE stock (
+    id INT,
+    quantity INT NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (id) REFERENCES m_products(id)
+);
+
+DELIMITER //
+CREATE TRIGGER produk_after_tambah
+AFTER INSERT ON m_products
+FOR EACH ROW
+BEGIN
+    INSERT INTO stock (id, quantity) VALUES (NEW.id, 0);
+END //
+DELIMITER ;
+
+####### Pertanyaan 4 ##########
+
+DELIMITER //
+CREATE TRIGGER stok_before_tambah
+BEFORE UPDATE ON stock
+FOR EACH ROW
+BEGIN
+    IF (NEW.quantity < 10) THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Peringatan: Stok kurang dari 10!';
+    END IF;
+END //
+DELIMITER ;
+
+
+
+
+
+
+
+
