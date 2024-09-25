@@ -1,1 +1,2 @@
-![foto 1](./image/gambar_1.png)
+![foto 1](./image/gambar_1_new.png)
+![foto 2](./image/gambar_2.png)

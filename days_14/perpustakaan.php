@@ -73,7 +73,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -148,6 +147,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         .message {
             padding-top: 5px;
         }
+
+        .disabled {
+            display: none;
+        }
     </style>
 </head>
 
@@ -155,13 +158,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <h1>Sistem Manajemen Perpustakaan</h1>
     <form method="post">
         <h2>Pilih Aksi:</h2>
-        <select name="action">
+        <select name="action" id="actionSelect" onchange="toggleInput()">
             <option value="lihat">Lihat Daftar Buku</option>
             <option value="pinjam">Pinjam Buku</option>
             <option value="kembalikan">Kembalikan Buku</option>
         </select>
-        <input type="text" name="id" placeholder="Masukkan ID Buku" required>
-        <button type="submit">Submit</button>
+        <input type="text" name="id" id="bukuId" placeholder="Masukkan ID Buku" required>
+        <button type="submit" id="submitButton">Submit</button>
     </form>
 
     <div class="daftar-buku">
@@ -171,6 +174,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="buku-dipinjam">
         <?= tampilkanBukuDipinjam($_SESSION['p_buku']); ?>
     </div>
+
+    <script>
+        function toggleInput() {
+            const actionSelect = document.getElementById('actionSelect');
+            const bukuId = document.getElementById('bukuId');
+            const submitButton = document.getElementById('submitButton');
+
+            if (actionSelect.value === 'lihat') {
+                bukuId.disabled = true;
+                submitButton.disabled = true;
+                bukuId.classList.add('disabled');
+                submitButton.classList.add('disabled');
+            } else {
+                bukuId.disabled = false;
+                submitButton.disabled = false;
+                bukuId.classList.remove('disabled');
+                submitButton.classList.remove('disabled');
+            }
+        }
+
+        toggleInput();
+    </script>
 </body>
 
 </html>
