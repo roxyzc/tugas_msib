@@ -39,7 +39,7 @@ session_start();
 
                 <div class="mb-3">
                     <label for="umur" class="form-label">Umur</label>
-                    <input type="number" name="umur" id="umur" class="form-control" placeholder="Masukkan Umur" required>
+                    <input type="number" name="umur" id="umur" min='1' max='100' class="form-control" placeholder="Masukkan Umur" required>
                 </div>
 
                 <div class="mb-3">

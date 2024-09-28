@@ -11,6 +11,12 @@ if (isset($_POST['submit'])) {
     $umur = $_POST['umur'];
     $jenis_kelamin = $_POST['jenis_kelamin'];
 
+    if ($umur < 1 || $umur > 100) {
+        $_SESSION['message'] = 'Data pasien dengan nama tersebut sudah ada.';
+        header('Location: tambah.php');
+        exit;
+    }
+
     $checkSql = "SELECT * FROM m_pasien WHERE nama = '$nama' AND alamat = '$alamat' AND umur = '$umur' AND jenis_kelamin = '$jenis_kelamin'";
     $checkResult = mysqli_query($koneksi, $checkSql);
 

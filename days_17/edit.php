@@ -46,7 +46,7 @@ session_start();
 
                     <div class="mb-3">
                         <label for="umur" class="form-label">Umur</label>
-                        <input type="number" name="umur" id="umur" class="form-control" placeholder="Masukkan Umur" value="<?= $d['umur'] ?>" required>
+                        <input type="number" name="umur" min='1' max='2' id="umur" class="form-control" placeholder="Masukkan Umur" value="<?= $d['umur'] ?>" required>
                     </div>
 
                     <div class="mb-3">

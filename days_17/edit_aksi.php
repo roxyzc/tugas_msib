@@ -10,12 +10,18 @@ if (isset($_POST['submit'])) {
     $umur = $_POST['umur'];
     $jenis_kelamin = $_POST['jenis_kelamin'];
 
+    if ($umur < 1 || $umur > 100) {
+        $_SESSION['message'] = 'Masukkan umur dengan benar.';
+        header("Location: edit.php?id=$id");
+        exit;
+    }
+
     $checkSql = "SELECT * FROM m_pasien WHERE nama = '$nama' AND alamat = '$alamat' AND umur = '$umur' AND jenis_kelamin = '$jenis_kelamin' AND id != '$id'";
     $checkResult = mysqli_query($koneksi, $checkSql);
 
     if (mysqli_num_rows($checkResult) > 0) {
         $_SESSION['message'] = 'Data pasien sudah ada. Silakan gunakan data yang berbeda.';
-        header("Location: tambah.php");
+        header("Location: edit.php?id=$id");
         exit;
     }
 
@@ -27,7 +33,7 @@ if (isset($_POST['submit'])) {
         exit;
     } else {
         $_SESSION['message'] = 'Data tidak berhasil diperbarui.';
-        header("Location: edit.php");
+        header("Location: edit.php?id=$id");
         exit;
     }
 }
