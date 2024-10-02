@@ -12,4 +12,6 @@
 
 ### Hapus Data Pasien
 
-![gambar_4](./image/gambar_4)
+![gambar_4](./image/gambar_4.png)
+
+![gambar_5](./image/gambar_5.png)
