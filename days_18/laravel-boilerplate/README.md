@@ -1,6 +1,6 @@
 1. Clone repository
     ```
-    git clone https://github.com/roxyzc/tugas_msib/tree/master/days_18/laravel-boilerplat
+    git clone https://github.com/roxyzc/tugas_msib/tree/master/days_18/laravel-boilerplate
     ```
 2. Change into the working directory
     ```
