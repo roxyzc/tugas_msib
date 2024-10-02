@@ -1,4 +1,4 @@
-1 Copy `.env.example` to `.env` and modify according to your environment
+1. Copy `.env.example` to `.env` and modify according to your environment
     ```
     cp .env.example .env
     ```
