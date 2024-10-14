@@ -1,0 +1,17 @@
+{
+    "name": "asus/days_28",
+    "autoload": {
+        "psr-4": {
+            "Asus\\Days28\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "roxyzc",
+            "email": "roxyzc12@gmail.com"
+        }
+    ],
+    "require": {
+        "phpoffice/phpspreadsheet": "^3.3"
+    }
+}
