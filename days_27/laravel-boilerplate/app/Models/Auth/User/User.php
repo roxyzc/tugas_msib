@@ -10,6 +10,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Models\Auth\User\Traits\Ables\Rolable;
 use App\Models\Auth\User\Traits\Scopes\UserScopes;
 use App\Models\Auth\User\Traits\Relations\UserRelations;
+use App\Models\Post;
 use Kyslik\ColumnSortable\Sortable;
 
 /**
@@ -90,6 +91,11 @@ class User extends Authenticatable
      * @var array
      */
     protected $dates = ['deleted_at', 'last_login'];
+
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
 
     // public function setGoogle2faSecretAttribute($value)
     // {

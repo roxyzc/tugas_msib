@@ -34,20 +34,29 @@ class PostController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|min:5|max:100',
             'content' => 'required|min:100|string',
+            'meta_description' => 'required|string|max:160',
             'category_id' => 'required|exists:categories,id',
             'tags' => 'nullable|string'
         ], [
             'title.required' => 'Judul harus diisi.',
-            'title.min' => 'Judul harus memiliki minimal 5 karakter.',
-            'title.max' => 'Judul tidak boleh lebih dari 100 karakter.',
+            'title.min' => 'Judul harus memiliki minimal :min karakter.',
+            'title.max' => 'Judul tidak boleh lebih dari :max karakter.',
             'content.required' => 'Konten harus diisi.',
-            'content.min' => 'Konten harus memiliki minimal 100 karakter.',
+            'content.min' => 'Konten harus memiliki minimal :min karakter.',
+            'meta_description.required' => 'Deskripsi harus diisi.',
+            'meta_description.max' => 'Deskripsi tidak boleh lebih dari :max karakter.',
             'category_id.required' => 'Kategori harus dipilih.',
             'category_id.exists' => 'Kategori yang dipilih tidak valid.',
             'tags.string' => 'Tags harus berupa string.',
         ]);
 
-        $post = Post::create($validated);
+        $post = Post::create([
+            'title' => $validated['title'],
+            'content' => $validated['content'],
+            'meta_description' => $validated['meta_description'],
+            'category_id' => $validated['category_id'],
+            'user_id' => auth()->id(),
+        ]);
 
         if (!empty($request->tags)) {
             $tags = array_map('trim', explode(',', $request->tags));
@@ -71,17 +80,20 @@ class PostController extends Controller
 
     public function update(Request $request, $id)
     {
-        $validated = $request->validate([
+        $request->validate([
             'title' => 'required|string|min:5|max:100',
             'content' => 'required|min:100|string',
+            'meta_description' => 'required|string|max:160',
             'category_id' => 'required|exists:categories,id',
             'tags' => 'nullable|string'
         ], [
             'title.required' => 'Judul harus diisi.',
-            'title.min' => 'Judul harus memiliki minimal 5 karakter.',
-            'title.max' => 'Judul tidak boleh lebih dari 100 karakter.',
+            'title.min' => 'Judul harus memiliki minimal :min karakter.',
+            'title.max' => 'Judul tidak boleh lebih dari :max karakter.',
             'content.required' => 'Konten harus diisi.',
-            'content.min' => 'Konten harus memiliki minimal 100 karakter.',
+            'content.min' => 'Konten harus memiliki minimal :min karakter.',
+            'meta_description.required' => 'Deskripsi harus diisi.',
+            'meta_description.max' => 'Deskripsi tidak boleh lebih dari :max karakter.',
             'category_id.required' => 'Kategori harus dipilih.',
             'category_id.exists' => 'Kategori yang dipilih tidak valid.',
             'tags.string' => 'Tags harus berupa string.',
@@ -92,6 +104,7 @@ class PostController extends Controller
         $post->update([
             'title' => $request->title,
             'content' => $request->content,
+            'meta_description' => $request->meta_description,
             'category_id' => $request->category_id,
         ]);
 
@@ -99,7 +112,7 @@ class PostController extends Controller
             $tags = array_map('trim', explode(',', $request->tags));
             $post->tags()->detach();
             foreach ($tags as $tagName) {
-                $tag = Tag::firstOrCreate(['name' => $tagName]);
+                $tag = Tag::firstOrCreate(['name' => ucwords($tagName)]);
                 $post->tags()->attach($tag->id);
             }
         } else {

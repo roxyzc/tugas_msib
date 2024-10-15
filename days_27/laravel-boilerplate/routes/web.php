@@ -83,17 +83,16 @@ Route::group(['as' => 'protection.'], function () {
     Route::get('membership/clear-cache/', 'MembershipController@clearValidationCache')->name('membership.clear_validation_cache');
 });
 
-Route::get('/posts', 'PostController@index')->middleware('check.auth')->name('posts.index');
 
-Route::group(['prefix' => 'posts', 'middleware' => 'admin'], function () {
+Route::group(['prefix' => 'posts', 'middleware' => 'check.auth'], function () {
+    Route::get('/', 'PostController@index')->name('posts.index');
     Route::get('/create', 'PostController@create')->name('posts.create');
     Route::post('/create', 'PostController@store')->name('posts.store');
     Route::get('/update/{id}', 'PostController@edit')->name('posts.edit');
     Route::put('/update/{id}', 'PostController@update')->name('posts.update');
     Route::any('/delete/{id}', 'PostController@destroy')->name('posts.destroy');
+    Route::get('/show/{id}', 'PostController@show')->name('posts.show');
 });
-
-Route::get('/posts/show/{id}', 'PostController@show')->middleware('check.auth')->name('posts.show');
 
 Route::group(['prefix' => 'categories', 'middleware' => 'admin'], function () {
     Route::get('/', 'CategoryController@index')->name('categories.index');
@@ -104,8 +103,8 @@ Route::group(['prefix' => 'categories', 'middleware' => 'admin'], function () {
     Route::any('/delete/{id}', 'CategoryController@destroy')->name('categories.destroy');
 });
 
-Route::post('posts/comments/{postId}', 'CommentController@store')->name('comments.store');
-Route::any('/comments/{id}', 'CommentController@destroy')->name('comments.destroy');
+Route::post('posts/comments/{postId}', 'CommentController@store')->middleware('check.auth')->name('comments.store');
+Route::any('/comments/{id}', 'CommentController@destroy')->middleware('check.auth')->name('comments.destroy');
 
 // Route::post('/2fa', function () {
 //     return redirect(URL()->previous());

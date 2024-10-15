@@ -47,24 +47,22 @@
     </a>
     <div class="container mt-5">
         <h1 class="mb-4">Daftar Blog</h1>
-
+    
         @if(session('success'))
         <div class="alert alert-success">
             {{ session('success') }}
         </div>
         @endif
-
+    
         <div class="d-flex justify-content-between mb-4">
-            @if(auth()->check() && auth()->user()->roles->pluck('name')->contains('administrator')) 
-                <a href="{{ route('posts.create') }}" class="btn btn-success">Tambah</a>
-            @endif
-
+            <a href="{{ route('posts.create') }}" class="btn btn-success">Tambah</a>
+    
             <form class="d-flex" method="GET" action="{{ route('posts.index') }}">
                 <input class="form-control me-2" type="search" name="search" placeholder="Cari" aria-label="Search">
                 <button class="btn btn-outline-primary" type="submit">Cari</button>
             </form>
         </div>
-
+    
         @if($posts->isEmpty())
         <div class="alert alert-info" role="alert">
             Belum ada postingan.
@@ -77,11 +75,11 @@
                             <div class="card-body">
                                 <h5 class="card-title">{{ $post->title }}</h5>
                                 <h6 class="card-subtitle mb-2 text-muted">Kategori: {{ $post->category->name }}</h6>
-                                <p class="card-text">{{ \Illuminate\Support\Str::limit($post->content, 100, '...') }}</p>
-                                <p class="card-text"><small class="text-muted">Diposting pada {{ $post->created_at->format('d M Y') }} oleh Admin</small></p>
+                                <p class="card-text">{{ \Illuminate\Support\Str::limit($post->meta_description, 100, '...') }}</p>
+                                <p class="card-text"><small class="text-muted">Diposting pada {{ $post->created_at->format('d M Y') }} oleh {{ $post->user->name }}</small></p>
                                 <a href="{{ route('posts.show', $post->id) }}" class="btn btn-primary">Baca Selengkapnya</a>
-        
-                                @if(auth()->check() && auth()->user()->roles->pluck('name')->contains('administrator'))
+    
+                                @if(auth()->check() && (auth()->user()->roles->pluck('name')->contains('administrator') || auth()->user()->id === $post->user_id))
                                     <a href="{{ route('posts.edit', $post->id) }}" class="btn btn-warning">Edit</a>
                                     <form action="{{ route('posts.destroy', $post->id) }}" method="POST" style="display:inline;">
                                         @csrf
@@ -98,7 +96,7 @@
             </div>
         @endif    
     </div>
-
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -61,6 +61,11 @@
             </div>
 
             <div class="mb-3">
+                <label for="meta_description" class="form-label">Deskripsi</label>
+                <textarea name="meta_description" id="meta_description" class="form-control" rows="5" required>{{ old('meta_description') }}</textarea>
+            </div>
+
+            <div class="mb-3">
                 <label for="category_id" class="form-label">Kategori</label>
                 <select name="category_id" id="category_id" class="form-select" required>
                     <option value="">Pilih Kategori</option>

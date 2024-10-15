@@ -112,7 +112,9 @@
 
         <div class="post-content">
             <img src="https://www.hostinger.co.id/tutorial/wp-content/uploads/sites/11/2019/03/apa-itu-blog-dan-pengertian-blog.webp" alt="Gambar Post" class="post-image">
-            <p>{{ $post->content }}</p>
+            <p class="card-text">{{ $post->meta_description }}</p>
+            <p class="card-text">{{ $post->content }}</p>
+            <p class="card-text"><small class="text-muted">Diposting pada {{ $post->created_at->format('d M Y') }} oleh {{ $post->user->name }}</small></p>
         </div>
 
         <div class="post-tags">
@@ -134,7 +136,7 @@
             </a>
 
             <div>
-                @if(auth()->check() && auth()->user()->roles->pluck('name')->contains('administrator'))
+                @if(auth()->check() && (auth()->user()->roles->pluck('name')->contains('administrator') || auth()->user()->id === $post->user_id))
                     <a href="{{ route('posts.edit', $post->id) }}" class="btn btn-warning">
                         <i class="fas fa-edit"></i> Edit
                     </a>
