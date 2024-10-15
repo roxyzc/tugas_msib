@@ -132,11 +132,11 @@
             <img src="https://www.hostinger.co.id/tutorial/wp-content/uploads/sites/11/2019/03/apa-itu-blog-dan-pengertian-blog.webp" alt="Gambar Post" class="post-image">
             <p class="card-text">{{ $post->meta_description }}</p>
             <p class="card-text">{{ $post->content }}</p>
-            <p class="card-text"><small class="text-muted">Diposting pada {{ $post->created_at->format('d M Y') }} oleh {{ $post->user->name }}</small></p>
+            <p class="card-text"><small class="text-muted">Diposting pada {{ $post->created_at->format('d M Y') }} jam {{ $post->created_at->format('H:i:s') }} oleh {{ $post->user->name }}</small></p>
         </div>
 
         <div class="post-tags">
-            <h6>Tags:</h6>
+            <h6>Tag:</h6>
             @if($post->tags->isNotEmpty())
                 <div class="d-flex flex-wrap">
                     @foreach($post->tags as $tag)

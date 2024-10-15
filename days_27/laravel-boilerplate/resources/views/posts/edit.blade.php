@@ -76,7 +76,7 @@
             </div>
 
             <div class="mb-3">
-                <label for="tags" class="form-label">Tags (pisahkan dengan koma)</label>
+                <label for="tags" class="form-label">Tag (pisahkan dengan koma)</label>
                 <input type="text" class="form-control" id="tags" name="tags" value="{{ $post->tags->pluck('name')->implode(', ') }}">
             </div>
 

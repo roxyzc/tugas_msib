@@ -51,6 +51,15 @@ class PostController extends Controller
             'tags.string' => 'Tags harus berupa string.',
         ]);
 
+        $tags = array_map('trim', explode(',', $request->tags));
+
+        if (count($tags) > 5) {
+            return redirect()->back()->withErrors(['tags' => 'Jumlah tag tidak boleh lebih dari 5.'])->withInput();
+        }
+
+        $tags = array_map('ucwords', $tags);
+
+
         $post = Post::create([
             'title' => $validated['title'],
             'content' => $validated['content'],
@@ -60,16 +69,13 @@ class PostController extends Controller
         ]);
 
         if (!empty($request->tags)) {
-            $tags = array_map('trim', explode(',', $request->tags));
-
             foreach ($tags as $tagName) {
                 $tag = Tag::firstOrCreate(['name' => $tagName]);
                 $post->tags()->attach($tag->id);
             }
-
-            SEOMeta::setKeywords($tags);
         }
 
+        SEOMeta::setKeywords($tags);
         SEOMeta::setTitle($request->title);
         SEOMeta::setDescription($post->meta_description);
 
@@ -105,6 +111,12 @@ class PostController extends Controller
             'tags.string' => 'Tags harus berupa string.',
         ]);
 
+        $tags = array_map('trim', explode(',', $request->tags));
+        if (count($tags) > 5) {
+            return redirect()->back()->withErrors(['tags' => 'Jumlah tag tidak boleh lebih dari 5.'])->withInput();
+        }
+        $tags = array_map('ucwords', $tags);
+
         $post = Post::findOrFail($id);
 
         $post->update([
@@ -115,18 +127,16 @@ class PostController extends Controller
         ]);
 
         if (!empty($request->tags)) {
-            $tags = array_map('trim', explode(',', $request->tags));
             $post->tags()->detach();
             foreach ($tags as $tagName) {
                 $tag = Tag::firstOrCreate(['name' => ucwords($tagName)]);
                 $post->tags()->attach($tag->id);
             }
-
-            SEOMeta::setKeywords($tags);
         } else {
             $post->tags()->detach();
         }
 
+        SEOMeta::setKeywords($tags);
         SEOMeta::setTitle('Edit: ' . $post->title);
         SEOMeta::setDescription($post->meta_description);
 
