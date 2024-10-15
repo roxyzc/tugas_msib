@@ -23,6 +23,7 @@
         "php": ">=7.4.0",
         "albertcht/invisible-recaptcha": "^1.9",
         "arcanedev/log-viewer": "^8.0",
+        "artesaos/seotools": "^1.2",
         "bacon/bacon-qr-code": "^3.0",
         "creativeorange/gravatar": "^1.0",
         "davejamesmiller/laravel-breadcrumbs": "^5.2",

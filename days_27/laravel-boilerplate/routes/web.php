@@ -16,9 +16,9 @@
  * Auth routes
  */
 
-use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
+Route::get('/sitemap.xml', 'SitemapController@index');
 Route::group(['namespace' => 'Auth'], function () {
 
     // Authentication Routes...

@@ -61,7 +61,7 @@
 
             <div class="mb-3">
                 <label for="meta_description" class="form-label">Deskripsi</label>
-                <textarea name="meta_description" id="meta_description" class="form-control" rows="5" required>{{ old('meta_description') }}</textarea>
+                <textarea name="meta_description" id="meta_description" class="form-control" rows="5" required>{{ old('meta_description', $post->meta_description) }}</textarea>
             </div>
 
             <div class="mb-3">

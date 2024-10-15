@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\Tag;
+use Artesaos\SEOTools\Facades\SEOMeta;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -65,7 +66,12 @@ class PostController extends Controller
                 $tag = Tag::firstOrCreate(['name' => $tagName]);
                 $post->tags()->attach($tag->id);
             }
+
+            SEOMeta::setKeywords($tags);
         }
+
+        SEOMeta::setTitle($request->title);
+        SEOMeta::setDescription($post->meta_description);
 
         return redirect()->route('posts.index');
     }
@@ -115,9 +121,14 @@ class PostController extends Controller
                 $tag = Tag::firstOrCreate(['name' => ucwords($tagName)]);
                 $post->tags()->attach($tag->id);
             }
+
+            SEOMeta::setKeywords($tags);
         } else {
             $post->tags()->detach();
         }
+
+        SEOMeta::setTitle('Edit: ' . $post->title);
+        SEOMeta::setDescription($post->meta_description);
 
         return redirect()->route('posts.index')->with('success', 'Postingan berhasil diperbarui.');
     }
@@ -125,6 +136,10 @@ class PostController extends Controller
     public function show($id)
     {
         $post = Post::with(['category', 'comments.user'])->findOrFail($id);
+
+        SEOMeta::setTitle($post->title);
+        SEOMeta::setDescription($post->meta_description);
+
         return view('posts.show', compact('post'));
     }
 
