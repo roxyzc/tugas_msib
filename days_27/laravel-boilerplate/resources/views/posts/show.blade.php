@@ -64,24 +64,46 @@
             font-size: 0.9rem;
             color: #6c757d;
         }
-        .back-button {
-            margin-top: 20px;
-        }
-        .btn-primary {
-            margin-right: 10px;
-        }
+
         .form-control {
             border: 1px solid #007bff;
             transition: border-color 0.3s;
         }
+
         .form-control:focus {
             border-color: #0056b3;
             box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
         }
+
         .comment-input {
             margin-top: 20px;
         }
-    </style>
+
+        .post-tags {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .post-tags h6 {
+            font-weight: bold;
+            color: #343a40;
+        }
+
+        .post-tags .badge {
+            font-size: 0.9rem;
+            margin: 5px 5px 0 0; /* Space between badges */
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .post-tags .badge:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
+</style>
 </head>
 <body>
     <div class="container mt-5">
@@ -93,25 +115,40 @@
             <p>{{ $post->content }}</p>
         </div>
 
-        <div class="action-buttons">
-            @if(auth()->check() && auth()->user()->roles->pluck('name')->contains('administrator'))
-                <a href="{{ route('posts.edit', $post->id) }}" class="btn btn-warning">
-                    <i class="fas fa-edit"></i> Edit
-                </a>
-
-                <form action="{{ route('posts.destroy', $post->id) }}" method="POST" style="display:inline;">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus post ini?');">
-                        <i class="fas fa-trash"></i> Hapus
-                    </button>
-                </form>
+        <div class="post-tags">
+            <h6>Tags:</h6>
+            @if($post->tags->isNotEmpty())
+                <div class="d-flex flex-wrap">
+                    @foreach($post->tags as $tag)
+                        <a href="#" class="badge bg-secondary me-2 mb-2 text-decoration-none">{{ $tag->name }}</a>
+                    @endforeach
+                </div>
+            @else
+                <p>Tidak ada tag untuk post ini.</p>
             @endif
         </div>
-        <a href="{{ route('posts.index') }}" class="btn btn-primary back-button">
-            <i class="fas fa-arrow-left"></i> Kembali
-        </a>
 
+        <div class="action-buttons d-flex justify-content-between">
+            <a href="{{ route('posts.index') }}" class="btn btn-primary">
+                <i class="fas fa-arrow-left"></i> Kembali
+            </a>
+
+            <div>
+                @if(auth()->check() && auth()->user()->roles->pluck('name')->contains('administrator'))
+                    <a href="{{ route('posts.edit', $post->id) }}" class="btn btn-warning">
+                        <i class="fas fa-edit"></i> Edit
+                    </a>
+        
+                    <form action="{{ route('posts.destroy', $post->id) }}" method="POST" style="display:inline;">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus post ini?');">
+                            <i class="fas fa-trash"></i> Hapus
+                        </button>
+                    </form>
+                @endif
+            </div>
+        </div>        
 
         <div class="comment-section">
             <h4>Komentar ({{ $post->comments->count() }})</h4>

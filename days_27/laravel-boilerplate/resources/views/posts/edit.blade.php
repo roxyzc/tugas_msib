@@ -70,6 +70,11 @@
                 </select>
             </div>
 
+            <div class="mb-3">
+                <label for="tags" class="form-label">Tags (pisahkan dengan koma)</label>
+                <input type="text" class="form-control" id="tags" name="tags" value="{{ $post->tags->pluck('name')->implode(', ') }}">
+            </div>
+
             <button type="submit" class="btn btn-primary">Perbarui</button>
             <a href="{{ route('posts.index') }}" class="btn btn-secondary">Kembali</a>
         </form>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Post;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -33,7 +34,8 @@ class PostController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|min:5|max:100',
             'content' => 'required|min:100|string',
-            'category_id' => 'required|exists:categories,id'
+            'category_id' => 'required|exists:categories,id',
+            'tags' => 'nullable|string'
         ], [
             'title.required' => 'Judul harus diisi.',
             'title.min' => 'Judul harus memiliki minimal 5 karakter.',
@@ -42,9 +44,20 @@ class PostController extends Controller
             'content.min' => 'Konten harus memiliki minimal 100 karakter.',
             'category_id.required' => 'Kategori harus dipilih.',
             'category_id.exists' => 'Kategori yang dipilih tidak valid.',
+            'tags.string' => 'Tags harus berupa string.',
         ]);
 
-        Post::create($validated);
+        $post = Post::create($validated);
+
+        if (!empty($request->tags)) {
+            $tags = array_map('trim', explode(',', $request->tags));
+
+            foreach ($tags as $tagName) {
+                $tag = Tag::firstOrCreate(['name' => $tagName]);
+                $post->tags()->attach($tag->id);
+            }
+        }
+
         return redirect()->route('posts.index');
     }
 
@@ -58,10 +71,20 @@ class PostController extends Controller
 
     public function update(Request $request, $id)
     {
-        $request->validate([
+        $validated = $request->validate([
             'title' => 'required|string|min:5|max:100',
             'content' => 'required|min:100|string',
-            'category_id' => 'nullable|exists:categories,id',
+            'category_id' => 'required|exists:categories,id',
+            'tags' => 'nullable|string'
+        ], [
+            'title.required' => 'Judul harus diisi.',
+            'title.min' => 'Judul harus memiliki minimal 5 karakter.',
+            'title.max' => 'Judul tidak boleh lebih dari 100 karakter.',
+            'content.required' => 'Konten harus diisi.',
+            'content.min' => 'Konten harus memiliki minimal 100 karakter.',
+            'category_id.required' => 'Kategori harus dipilih.',
+            'category_id.exists' => 'Kategori yang dipilih tidak valid.',
+            'tags.string' => 'Tags harus berupa string.',
         ]);
 
         $post = Post::findOrFail($id);
@@ -71,6 +94,17 @@ class PostController extends Controller
             'content' => $request->content,
             'category_id' => $request->category_id,
         ]);
+
+        if (!empty($request->tags)) {
+            $tags = array_map('trim', explode(',', $request->tags));
+            $post->tags()->detach();
+            foreach ($tags as $tagName) {
+                $tag = Tag::firstOrCreate(['name' => $tagName]);
+                $post->tags()->attach($tag->id);
+            }
+        } else {
+            $post->tags()->detach();
+        }
 
         return redirect()->route('posts.index')->with('success', 'Postingan berhasil diperbarui.');
     }
