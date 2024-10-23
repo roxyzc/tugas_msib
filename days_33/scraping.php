@@ -1,4 +1,15 @@
 <?php
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "newsportal";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
 $html = file_get_contents('https://www.newsportal.id/');
 
 $data = array();
@@ -35,8 +46,9 @@ while ($t_start !== false && $counter < 5) {
     $script_end = strpos($t_article_html, '</script>');
     $json = substr($t_article_html, 0, $script_end);
     $arr_data = json_decode($json, true);
+    $datePublished = $arr_data['datePublished'] ?? null;
 
-    $data[$counter]['datePublished'] = $arr_data['datePublished'];
+    $data[$counter]['datePublished'] = $datePublished;
 
     $all_paragraphs = '';
     $pos = 0;
@@ -53,18 +65,24 @@ while ($t_start !== false && $counter < 5) {
         $pos = $body_end + 4;
     }
 
+    $body = trim($all_paragraphs);
+    $stmt = $conn->prepare("INSERT INTO articles (title, link, img, datePublished, body) VALUES (?, ?, ?, ?, ?)");
+    $stmt->bind_param("sssss", $title, $link, $image, $datePublished, $body);
+    $stmt->execute();
 
-    $data[$counter]['body'] = trim($all_paragraphs);
+
+    $data[$counter]['body'] = trim($body);
 
     $t_start = strpos($html, "<div class='featuredui-block item", $t_start + 1);
     $counter++;
 }
 
+$stmt->close();
+$conn->close();
+
+
 // Print data
 $json_data = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
 $file = 'hasil.json';
 file_put_contents($file, $json_data);
-
-$data = json_decode($json_data, true);
-
-print_r($data);
+print_r('berhasil scraping data silahkan check hasil.json atau database anda');
