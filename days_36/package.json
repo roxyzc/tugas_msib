@@ -1,0 +1,15 @@
+{
+  "name": "days_36",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "roxyzc",
+  "license": "ISC",
+  "dependencies": {
+    "puppeteer": "^23.6.0"
+  }
+}
